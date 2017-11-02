@@ -2,14 +2,15 @@
 import matplotlib.pyplot as plt
 
 def genarate_linechart(turnaround):
-    #plt.plot([1, 2, 3, 4])
-    #plt.ylabel('some numbers')
-    #plt.show()
+    print(turnaround)
+    plt.plot(turnaround.keys(), turnaround.values(), 'ro', linestyle='-')
+    plt.axis([1, len(turnaround)+1, 0, max(turnaround.values())+2])
+    plt.show()
     pass
 
 def avg_time(around_time, psnum):
-    print(around_time)
-    print(psnum)
+    #print(around_time)
+    #print(psnum)
     total_num = 0
     for i in around_time:
         total_num = total_num + i
@@ -56,8 +57,8 @@ def psaround_time(processes, quantum):
             ca_list.append(quantum)
             list_lenth = list_lenth + 1
         caculate_array.append(ca_list)
-    print(caculate_array)
-    print(list_lenth)
+    #print(caculate_array)
+    #print(list_lenth)
     return caculate_array, list_lenth
 
 
