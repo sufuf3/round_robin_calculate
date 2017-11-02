@@ -9,8 +9,6 @@ def genarate_linechart(turnaround):
     pass
 
 def avg_time(around_time, psnum):
-    #print(around_time)
-    #print(psnum)
     total_num = 0
     for i in around_time:
         total_num = total_num + i
@@ -36,11 +34,14 @@ def turnaround_time(psaroundtime_list, list_lenth, psnum):
                 if tmp_list.count(i) == 0:
                     tmp_list.append(i)
             if tmp != None and len(tmp_list)!=len(psaroundtime_list)-1:
-                around_time.append(around_time[all_lenth-list_lenth-1]+tmp)
+                try:
+                    around_time.append(around_time[all_lenth-list_lenth-1]+tmp)
+                except:
+                    continue
                 total_time = total_time+tmp
             elif tmp != None:
                 total_time = total_time+tmp
-    print(all_around_time)
+    #print(all_around_time)
     return all_around_time
 
 def psaround_time(processes, quantum):
@@ -57,8 +58,6 @@ def psaround_time(processes, quantum):
             ca_list.append(quantum)
             list_lenth = list_lenth + 1
         caculate_array.append(ca_list)
-    #print(caculate_array)
-    #print(list_lenth)
     return caculate_array, list_lenth
 
 
@@ -110,14 +109,10 @@ def main():
         if int(qnum) == 1:
             turnaroundtime_set  = {}
             processes = {1:"6", 2:"3", 3:"1", 4:"7"}
-            #print(type(processes))
-            #psaroundtime, list_lenth = psaround_time(processes, 6)
-            #turnaroundtime_set[0] = turnaround_time(psaroundtime, list_lenth)
             for qt in range(1,8):
                 psaroundtime, list_lenth = psaround_time(processes, qt)
                 avgaroundtime = turnaround_time(psaroundtime, list_lenth, len(processes))
                 turnaroundtime_set[qt] = avg_time(avgaroundtime, len(processes))
-            print(turnaroundtime_set)
             genarate_linechart(turnaroundtime_set)
             continue_run()
         elif int(qnum) == 2:
@@ -128,10 +123,8 @@ def main():
             max_quantum = set_maxquantum()
             for qt in range(1, max_quantum+1):
                 psaroundtime, list_lenth = psaround_time(processes, qt)
-                #turnaroundtime_set[qt] = turnaround_time(psaroundtime, list_lenth)
                 avgaroundtime = turnaround_time(psaroundtime, list_lenth, len(processes))
                 turnaroundtime_set[qt] = avg_time(avgaroundtime, len(processes))
-            print(turnaroundtime_set)
             genarate_linechart(turnaroundtime_set)
             continue_run()
         elif int(qnum) == 3:
