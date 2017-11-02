@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -7,7 +8,6 @@ def genarate_linechart(turnaround):
     plt.plot(turnaround.keys(), turnaround.values(), 'ro', linestyle='-')
     plt.axis([1, len(turnaround) + 1, 0, max(turnaround.values()) + 2])
     plt.show()
-    pass
 
 
 def avg_time(around_time, psnum):
@@ -94,6 +94,49 @@ def set_maxquantum():
     except BaseException:
         set_maxquantum()
 
+def set_guess():
+    print("Please set the guess time(This is a integer): ")
+    g = input()
+    try:
+        if int(g):
+            return int(g)
+    except BaseException:
+        set_guess()
+
+def set_burst():
+    print("Please set the array number(This is a integer): ")
+    n = input()
+    burst_list = []
+    for i in range(0,int(n)):
+        print("Please set the CPU burst time"+str(i+1)+"(This is a integer): ")
+        b = input()
+        burst_list.append(int(b))
+    return burst_list
+
+def predict_chart(guess_list, burst_list):
+    print(guess_list)
+    print(burst_list)
+    ind = np.arange(len(guess_list))  # the x locations for the groups
+    width = 0.35       # the width of the bars
+    fig, ax = plt.subplots()
+    rects1 = ax.bar(ind, tuple(guess_list), width, color='b')
+    rects2 = ax.bar(ind + width, tuple(burst_list), width, color='g')
+    ax.set_ylabel('τi & ti')
+    ax.set_title('Prediction of the Length of the Next CPU Burst')
+    ax.set_xticks(ind + width / 2)
+
+    ax.legend((rects1[0], rects2[0]), ('guess(i)', 'CPU burst time'))
+    plt.show()
+
+
+def next_bursttime(guess, burst):
+    #τn+1=0.5τn+(0.5-1)Tn
+    guess_list = [guess]
+    for i in range(0,len(burst)):
+        next_guess = float(guess_list[i])*0.5+float(burst[i])*0.5
+        guess_list.append(next_guess)
+    return guess_list
+
 
 def continue_run():
     print("Would you want to run another question(Y/N): ")
@@ -145,8 +188,15 @@ def main():
             genarate_linechart(turnaroundtime_set)
             continue_run()
         elif int(qnum) == 3:
+            burst_list = [6,4,6,4,13,13,13]
+            guess_list = next_bursttime(10, burst_list)
+            predict_chart(guess_list[:-1], burst_list)
             continue_run()
         elif int(qnum) == 4:
+            guess = set_guess()
+            burst_list = set_burst()
+            guess_list = next_bursttime(guess, burst_list)
+            predict_chart(guess_list[:-1], burst_list)
             continue_run()
     # except:
         # main()
