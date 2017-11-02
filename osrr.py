@@ -94,6 +94,7 @@ def set_maxquantum():
     except BaseException:
         set_maxquantum()
 
+
 def set_guess():
     print("Please set the guess time(This is a integer): ")
     g = input()
@@ -103,15 +104,18 @@ def set_guess():
     except BaseException:
         set_guess()
 
+
 def set_burst():
     print("Please set the array number(This is a integer): ")
     n = input()
     burst_list = []
-    for i in range(0,int(n)):
-        print("Please set the CPU burst time"+str(i+1)+"(This is a integer): ")
+    for i in range(0, int(n)):
+        print("Please set the CPU burst time" +
+              str(i + 1) + "(This is a integer): ")
         b = input()
         burst_list.append(int(b))
     return burst_list
+
 
 def predict_chart(guess_list, burst_list):
     print(guess_list)
@@ -130,10 +134,10 @@ def predict_chart(guess_list, burst_list):
 
 
 def next_bursttime(guess, burst):
-    #τn+1=0.5τn+(0.5-1)Tn
+    # τn+1=0.5τn+(0.5-1)Tn
     guess_list = [guess]
-    for i in range(0,len(burst)):
-        next_guess = float(guess_list[i])*0.5+float(burst[i])*0.5
+    for i in range(0, len(burst)):
+        next_guess = float(guess_list[i]) * 0.5 + float(burst[i]) * 0.5
         guess_list.append(next_guess)
     return guess_list
 
@@ -188,7 +192,7 @@ def main():
             genarate_linechart(turnaroundtime_set)
             continue_run()
         elif int(qnum) == 3:
-            burst_list = [6,4,6,4,13,13,13]
+            burst_list = [6, 4, 6, 4, 13, 13, 13]
             guess_list = next_bursttime(10, burst_list)
             predict_chart(guess_list[:-1], burst_list)
             continue_run()
